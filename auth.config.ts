@@ -1,10 +1,13 @@
 import type { NextAuthConfig } from 'next-auth';
 import GitHub from "next-auth/providers/github"
+
+import connectToDatabase from '@/lib/mongodb';
+import User from '@/models/User';
  
 export const authConfig = {
-  pages: {
-    signIn: '/signin',
-  },
+  // pages: {
+  //   signIn: '/signin',
+  // },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
@@ -16,6 +19,34 @@ export const authConfig = {
         return Response.redirect(new URL('/dashboard', nextUrl));
       }
       return true;
+    },
+    async signIn({ user, account, profile }) {
+      await connectToDatabase();
+
+      // Check if the user already exists in the database
+      const existingUser = await User.findOne({ email: user.email });
+
+      if (!existingUser) {
+        // If the user does not exist, create a new user record
+        await User.create({
+          name: user.name,
+          email: user.email,
+        });
+      }
+
+      return true;
+    },
+    async jwt({ token, user }) {
+      // When the user object is available (sign-in), save the user ID in the token
+      if (user) {
+        token.id = user.id; // Save the MongoDB user ID
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Include the user ID from the token in the session object
+      session.userId = token.id;
+      return session;
     },
   },
   providers: [
