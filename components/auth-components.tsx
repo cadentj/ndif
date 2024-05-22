@@ -9,7 +9,7 @@ export function SignIn({
     <form
       action={async () => {
         "use server"
-        await signIn(provider, {redirect: true, callbackUrl: "/dashboard"})
+        await signIn(provider)
       }}
     >
       <Button {...props}>Sign In</Button>

@@ -2,6 +2,9 @@ import type { NextAuthConfig } from 'next-auth';
 import GitHub from "next-auth/providers/github"
  
 export const authConfig = {
+  pages: {
+    signIn: '/signin',
+  },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;

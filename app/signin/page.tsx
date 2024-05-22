@@ -9,6 +9,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
+import { signIn } from "@/auth"
+
 import UserButton from "@/components/user-button"
 
 export default function LoginForm() {
@@ -20,7 +22,12 @@ export default function LoginForm() {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4">
-            <UserButton/>
+            <form
+              action={async () => {
+                "use server"
+                await signIn("github")
+              }}
+            ><Button>Login</Button></form>
           </div>
           <div className="mt-4 text-center text-sm">
             Already have an account?{" "}

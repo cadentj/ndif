@@ -12,6 +12,10 @@ import {
   Users,
 } from "lucide-react"
 
+import { signOut } from '@/auth';
+
+import { redirect } from "next/navigation";
+
 import Image from "next/image"
 
 import { Button } from "@/components/ui/button"
@@ -154,7 +158,15 @@ export default async function DashboardLayout({
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem>
+              <form
+              action={async () => {
+                'use server';
+                await signOut();
+                redirect('/');
+              }}
+            ><Button>Sign Out</Button></form>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
