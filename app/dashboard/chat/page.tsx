@@ -71,7 +71,7 @@ export default function PlaygroundPage() {
           </div>
         </div> */}
         {/* <Separator /> */}
-        <Tabs defaultValue="complete" className="flex-1">
+        <Tabs defaultValue="edit" className="flex-1">
           <div className="container h-full py-6">
             <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
               <div className="hidden flex-col space-y-4 sm:flex md:order-2">
