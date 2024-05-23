@@ -6,9 +6,7 @@ async function seedUsers() {
   await connectToDatabase();
 
   const users = [
-    { name: 'Penis', email: 'wenis@example.com' },
-    // { name: 'Bob', email: 'bob@example.com' },
-    // { name: 'Charlie', email: 'charlie@example.com' },
+    { name: 'Caden J', email: 'kh4dien@gmail.com' },
   ];
 
   try {

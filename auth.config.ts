@@ -3,7 +3,7 @@ import GitHub from "next-auth/providers/github"
 
 import connectToDatabase from '@/lib/mongodb';
 import User from '@/models/User';
- 
+
 export const authConfig = {
   // pages: {
   //   signIn: '/signin',
@@ -45,7 +45,7 @@ export const authConfig = {
     },
     async session({ session, token }) {
       // Include the user ID from the token in the session object
-      session.userId = token.id;
+      session.user.id = token.id;
       return session;
     },
   },
