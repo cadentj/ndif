@@ -69,7 +69,7 @@ export default function MessageBuilder() {
     return (
         <ResizablePanelGroup direction="horizontal" className="p-4 space-x-4 h-full">
             <ResizablePanel className="max-h-[80vh] overflow-hidden flex-1">
-                {/* <ScrollArea className="h-full pr-2">
+                <ScrollArea className="h-full pr-2">
                     <div className="grid gap-4 pb-4">
                         {messages.map((message) => (
                             <Textarea
@@ -83,21 +83,22 @@ export default function MessageBuilder() {
                             />
                         ))}
                         <div className="flex gap-2 pb-4">
+                        <Button onClick={fetchCompletion} >
+                                <PlusCircledIcon className="mr-2 h-4 w-4" />
+                                Submit
+                            </Button>
                             <Button onClick={addTurn} variant="ghost">
                                 <PlusCircledIcon className="mr-2 h-4 w-4" />
                                 Add Turn
                             </Button>
-                            <Button onClick={fetchCompletion} variant="ghost">
-                                <PlusCircledIcon className="mr-2 h-4 w-4" />
-                                Submit
-                            </Button>
+                            
                             <Button onClick={deleteLastTurn} variant="ghost">
                                 <PlusCircledIcon className="mr-2 h-4 w-4" />
                                 Delete Last Turn
                             </Button>
                         </div>
                     </div>
-                </ScrollArea> */}
+                </ScrollArea>
             </ResizablePanel>
             <ResizableHandle withHandle />
             <ResizablePanel className=" p-4 rounded-md border bg-muted h-full">

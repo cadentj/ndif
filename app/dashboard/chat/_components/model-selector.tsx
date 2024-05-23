@@ -32,12 +32,13 @@ import { Model, ModelType } from "../_data/models"
 interface ModelSelectorProps extends PopoverProps {
   types: readonly ModelType[]
   models: Model[]
+  selectedModel: Model | null
+  setSelectedModel: (model: Model) => void
 }
 
-export function ModelSelector({ models,types, ...props }: ModelSelectorProps) {
+export function ModelSelector({ models, types, selectedModel, setSelectedModel, ...props }: ModelSelectorProps) {
   const [open, setOpen] = React.useState(false)
   const [peekedModel, setPeekedModel] = React.useState<Model>(models[0])
-  const [selectedModel, setSelectedModel] = React.useState<Model>(models[0])
 
   return (
     <div className="grid gap-2">

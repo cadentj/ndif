@@ -1,4 +1,4 @@
-
+"use client";
 
 import * as React from "react"
 
@@ -28,23 +28,26 @@ import { ModelSelector } from "./_components/model-selector"
 import { ModeSelector } from "./_components/mode-selector"
 import { TemperatureSelector } from "./_components/temperature-selector"
 import { TopPSelector } from "./_components/top-p-selector"
-import { models, types } from "./_data/models"
+import { Model, models, types } from "./_data/models"
 
-import MessageBuilder from "./console"
+import MessageBuilder from "./message-builder"
+import Steering from "./steering";
 import CompletionIcon from "./_components/completion-icon"
 import EditIcon from "./_components/edit-icon"
 
 
-import { Model } from "./_data/models"
-import { modes } from "./_data/modes"
+import { modes, Mode } from "./_data/modes"
 
 
-export const metadata: Metadata = {
-  title: "Playground",
-  description: "The OpenAI Playground built using the components.",
-}
+// export const metadata: Metadata = {
+//   title: "Playground",
+//   description: "The OpenAI Playground built using the components.",
+// }
 
 export default function PlaygroundPage() {
+
+  const [selectedModel, setSelectedModel] = React.useState<Model>(models[0])
+  const [selectedMode, setSelectedMode] = React.useState<Mode>(modes[0])
 
   
 
@@ -86,8 +89,8 @@ export default function PlaygroundPage() {
                     </TabsTrigger>
                   </TabsList>
                 </div>
-                <ModeSelector modes={modes}/>
-                <ModelSelector types={types} models={models}/>
+                <ModeSelector modes={modes} selectedMode={selectedMode} setSelectedMode={setSelectedMode}/>
+                <ModelSelector types={types} models={models} selectedModel={selectedModel} setSelectedModel={setSelectedModel}/>
                 <TemperatureSelector defaultValue={[0.56]} />
                 <MaxLengthSelector defaultValue={[256]} />
                 <TopPSelector defaultValue={[0.9]} />
@@ -109,7 +112,7 @@ export default function PlaygroundPage() {
                   </div>
                 </TabsContent>
                 <TabsContent value="edit" className="mt-0 border-0 p-0">
-                  <MessageBuilder />
+                  {selectedMode.name === "Chat Completion" ? <MessageBuilder /> : <Steering />}
                 </TabsContent>
               </div>
             </div>

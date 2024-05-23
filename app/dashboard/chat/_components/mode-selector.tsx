@@ -31,12 +31,14 @@ import { Mode } from "../_data/modes"
 
 interface ModeSelectorProps extends PopoverProps {
   modes: Mode[]
+  selectedMode: Mode | null
+    setSelectedMode: (mode: Mode) => void
 }
 
-export function ModeSelector({ modes, ...props }: ModeSelectorProps) {
+export function ModeSelector({ modes, selectedMode, setSelectedMode, ...props }: ModeSelectorProps) {
   const [open, setOpen] = React.useState(false)
   const [peekedMode, setPeekedMode] = React.useState<Mode>(modes[0])
-  const [selectedMode, setSelectedMode] = React.useState<Mode>(modes[0])
+
 
   return (
     <div className="grid gap-2">
