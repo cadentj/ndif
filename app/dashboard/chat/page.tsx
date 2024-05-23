@@ -1,3 +1,8 @@
+
+
+import * as React from "react"
+
+
 import { Metadata } from "next"
 import Image from "next/image"
 import { CounterClockwiseClockIcon } from "@radix-ui/react-icons"
@@ -20,13 +25,19 @@ import { Textarea } from "@/components/ui/textarea"
 
 import { MaxLengthSelector } from "./_components/maxlength-selector"
 import { ModelSelector } from "./_components/model-selector"
+import { ModeSelector } from "./_components/mode-selector"
 import { TemperatureSelector } from "./_components/temperature-selector"
 import { TopPSelector } from "./_components/top-p-selector"
 import { models, types } from "./_data/models"
 
-import MessageBuilder from "./_components/message-builder"
+import MessageBuilder from "./console"
 import CompletionIcon from "./_components/completion-icon"
 import EditIcon from "./_components/edit-icon"
+
+
+import { Model } from "./_data/models"
+import { modes } from "./_data/modes"
+
 
 export const metadata: Metadata = {
   title: "Playground",
@@ -34,6 +45,9 @@ export const metadata: Metadata = {
 }
 
 export default function PlaygroundPage() {
+
+  
+
   return (
     <>
       <div className="md:hidden">
@@ -72,7 +86,8 @@ export default function PlaygroundPage() {
                     </TabsTrigger>
                   </TabsList>
                 </div>
-                <ModelSelector types={types} models={models} />
+                <ModeSelector modes={modes}/>
+                <ModelSelector types={types} models={models}/>
                 <TemperatureSelector defaultValue={[0.56]} />
                 <MaxLengthSelector defaultValue={[256]} />
                 <TopPSelector defaultValue={[0.9]} />

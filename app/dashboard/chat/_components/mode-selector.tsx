@@ -27,31 +27,30 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-import { Model, ModelType } from "../_data/models"
+import { Mode } from "../_data/modes"
 
-interface ModelSelectorProps extends PopoverProps {
-  types: readonly ModelType[]
-  models: Model[]
+interface ModeSelectorProps extends PopoverProps {
+  modes: Mode[]
 }
 
-export function ModelSelector({ models,types, ...props }: ModelSelectorProps) {
+export function ModeSelector({ modes, ...props }: ModeSelectorProps) {
   const [open, setOpen] = React.useState(false)
-  const [peekedModel, setPeekedModel] = React.useState<Model>(models[0])
-  const [selectedModel, setSelectedModel] = React.useState<Model>(models[0])
+  const [peekedMode, setPeekedMode] = React.useState<Mode>(modes[0])
+  const [selectedMode, setSelectedMode] = React.useState<Mode>(modes[0])
 
   return (
     <div className="grid gap-2">
       <HoverCard openDelay={200}>
         <HoverCardTrigger asChild>
-          <Label htmlFor="model">Model</Label>
+          <Label htmlFor="mode">Mode</Label>
         </HoverCardTrigger>
         <HoverCardContent
           align="start"
           className="w-[260px] text-sm"
           side="left"
         >
-          The model which will generate the completion. Some models are suitable
-          for natural language tasks, others specialize in code. Learn more.
+          The mode which will generate the completion. Some modes are suitable
+          for different tasks. Learn more.
         </HoverCardContent>
       </HoverCard>
       <Popover open={open} onOpenChange={setOpen} {...props}>
@@ -60,10 +59,10 @@ export function ModelSelector({ models,types, ...props }: ModelSelectorProps) {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            aria-label="Select a model"
+            aria-label="Select a mode"
             className="w-full justify-between"
           >
-            {selectedModel ? selectedModel.name : "Select a model..."}
+            {selectedMode ? selectedMode.name : "Select a mode..."}
             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -76,45 +75,31 @@ export function ModelSelector({ models,types, ...props }: ModelSelectorProps) {
               className="min-h-[280px]"
             >
               <div className="grid gap-2">
-                <h4 className="font-medium leading-none">{peekedModel.name}</h4>
+                <h4 className="font-medium leading-none">{peekedMode.name}</h4>
                 <div className="text-sm text-muted-foreground">
-                  {peekedModel.description}
+                  {peekedMode.description}
                 </div>
-                {peekedModel.strengths ? (
-                  <div className="mt-4 grid gap-2">
-                    <h5 className="text-sm font-medium leading-none">
-                      Strengths
-                    </h5>
-                    <ul className="text-sm text-muted-foreground">
-                      {peekedModel.strengths}
-                    </ul>
-                  </div>
-                ) : null}
               </div>
             </HoverCardContent>
             <Command loop>
               <CommandList className="h-[var(--cmdk-list-height)] max-h-[400px]">
-                <CommandInput placeholder="Search Models..." />
-                <CommandEmpty>No Models found.</CommandEmpty>
+                <CommandInput placeholder="Search Modes..." />
+                <CommandEmpty>No Modes found.</CommandEmpty>
                 <HoverCardTrigger />
-                {types.map((type) => (
-                  <CommandGroup key={type} heading={type}>
-                    {models
-                      .filter((model) => model.type === type)
-                      .map((model) => (
-                        <ModelItem
-                          key={model.id}
-                          model={model}
-                          isSelected={selectedModel?.id === model.id}
-                          onPeek={(model) => setPeekedModel(model)}
-                          onSelect={() => {
-                            setSelectedModel(model)
-                            setOpen(false)
-                          }}
-                        />
-                      ))}
-                  </CommandGroup>
-                ))}
+                <CommandGroup>
+                  {modes.map((mode) => (
+                    <ModeItem
+                      key={mode.name}
+                      mode={mode}
+                      isSelected={selectedMode?.name === mode.name}
+                      onPeek={(mode) => setPeekedMode(mode)}
+                      onSelect={() => {
+                        setSelectedMode(mode)
+                        setOpen(false)
+                      }}
+                    />
+                  ))}
+                </CommandGroup>
               </CommandList>
             </Command>
           </HoverCard>
@@ -124,21 +109,21 @@ export function ModelSelector({ models,types, ...props }: ModelSelectorProps) {
   )
 }
 
-interface ModelItemProps {
-  model: Model
+interface ModeItemProps {
+  mode: Mode
   isSelected: boolean
   onSelect: () => void
-  onPeek: (model: Model) => void
+  onPeek: (mode: Mode) => void
 }
 
-function ModelItem({ model, isSelected, onSelect, onPeek }: ModelItemProps) {
+function ModeItem({ mode, isSelected, onSelect, onPeek }: ModeItemProps) {
   const ref = React.useRef<HTMLDivElement>(null)
 
   useMutationObserver(ref, (mutations) => {
     for (const mutation of mutations) {
       if (mutation.type === "attributes") {
         if (mutation.attributeName === "aria-selected") {
-          onPeek(model)
+          onPeek(mode)
         }
       }
     }
@@ -146,12 +131,12 @@ function ModelItem({ model, isSelected, onSelect, onPeek }: ModelItemProps) {
 
   return (
     <CommandItem
-      key={model.id}
+      key={mode.name}
       onSelect={onSelect}
       ref={ref}
       className="aria-selected:bg-primary aria-selected:text-primary-foreground"
     >
-      {model.name}
+      {mode.name}
       <CheckIcon
         className={cn(
           "ml-auto h-4 w-4",
