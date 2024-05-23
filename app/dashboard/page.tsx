@@ -13,17 +13,25 @@ import {
 
 import { CopyIcon, TrashIcon, PlusCircledIcon } from "@radix-ui/react-icons"
 
+import { fetchApiKey } from "../api/users/data"
+
+import { complete } from "../api/ndif/completions"
+
 export default async function Profile() {
   const session = await auth()
 
   if (!session.user) return null
+
+  const apiKey = fetchApiKey(session.user.email)
+
+  // const response = await complete("Hello, world!")
 
   return (
     <div className="space-y-6 lg:max-w-2xl">
       <div>
         <h3 className="text-lg font-medium">Welcome {session.user?.name}</h3>
         <p className="text-sm text-muted-foreground">
-          Here you can manage your API keys. You may only have 1 active key at a time.
+          {/* {response} */}
         </p>
       </div>
 
@@ -44,7 +52,7 @@ export default async function Profile() {
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell>{session.user?.email}</TableCell>
+            <TableCell>{apiKey}</TableCell>
             <TableCell>
               <Button variant="outline" size="icon" className="mr-2">
                 <CopyIcon className="h-4 w-4"/>
