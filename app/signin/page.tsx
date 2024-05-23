@@ -11,7 +11,6 @@ import {
 
 import { signIn } from "@/auth"
 
-import UserButton from "@/components/user-button"
 
 export default function LoginForm() {
   return (

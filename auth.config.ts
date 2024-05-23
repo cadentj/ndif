@@ -1,13 +1,11 @@
 import type { NextAuthConfig } from 'next-auth';
-import GitHub from "next-auth/providers/github"
+import GitHub from "next-auth/providers/github";
+import crypto from 'crypto';
 
 import connectToDatabase from '@/lib/mongodb';
 import User from '@/models/User';
 
 export const authConfig = {
-  // pages: {
-  //   signIn: '/signin',
-  // },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
@@ -21,17 +19,30 @@ export const authConfig = {
       return true;
     },
     async signIn({ user, account, profile }) {
-      await connectToDatabase();
+      try {
+        await connectToDatabase();
 
-      // Check if the user already exists in the database
-      const existingUser = await User.findOne({ email: user.email });
+        // Check if the user already exists in the database
+        const existingUser = await User.findOne({ email: user.email });
 
-      if (!existingUser) {
-        // If the user does not exist, create a new user record
-        await User.create({
-          name: user.name,
-          email: user.email,
-        });
+        if (!existingUser) {
+          // Generate a random API key
+          const apiKey = crypto.randomBytes(32).toString('hex');
+          console.log("Created api key: ", apiKey);
+
+          // If the user does not exist, create a new user record
+          const newUser = await User.create({
+            name: user.name,
+            email: user.email,
+            apiKey: apiKey,
+          });
+
+          console.log("New user created: ", newUser);
+        } else {
+          console.log("User already exists: ", existingUser);
+        }
+      } catch (error) {
+        console.error("Error during signIn callback: ", error);
       }
 
       return true;

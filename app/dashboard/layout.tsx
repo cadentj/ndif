@@ -12,7 +12,8 @@ import {
   Users,
 } from "lucide-react"
 
-import { signOut } from '@/auth';
+
+import { SignOut } from "@/components/auth-components";
 
 import { redirect } from "next/navigation";
 
@@ -56,12 +57,12 @@ export default async function DashboardLayout({
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              <Link
-                href="/dashboard/keys"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            <Link
+                href="/dashboard"
+                className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
               >
-                <Home className="h-4 w-4" />
-                API Keys
+                <Package className="h-4 w-4" />
+                Profile
               </Link>
               <Link
                 href="/dashboard/chat"
@@ -69,13 +70,6 @@ export default async function DashboardLayout({
               >
                 <ShoppingCart className="h-4 w-4" />
                 Chat
-              </Link>
-              <Link
-                href="/dashboard/products"
-                className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
-              >
-                <Package className="h-4 w-4" />
-                Products
               </Link>
             </nav>
           </div>
@@ -104,38 +98,26 @@ export default async function DashboardLayout({
                   <span className="sr-only">National Deep Inference Fabric</span>
                 </Link>
                 <Link
-                  href="#"
+                  href="/dashboard"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                 >
-                  <Home className="h-5 w-5" />
-                  API Keys
+                  <Package className="h-5 w-5" />
+                  Profile
                 </Link>
                 <Link
-                  href="#"
+                  href="/dashboard/chat"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
                 >
                   <ShoppingCart className="h-5 w-5" />
                   Chat
                 </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Package className="h-5 w-5" />
-                  Products
-                </Link>
+                
               </nav>
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
           </div>
-          <form
-              action={async () => {
-                'use server';
-                await signOut();
-                redirect('/');
-              }}
-            ><Button>Sign Out</Button></form>
+          <SignOut/>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
           {children}

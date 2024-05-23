@@ -1,12 +1,15 @@
-const mongoose = require('mongoose');
-const connectToDatabase = require('../lib/mongodb');
-const User = require('../models/User');
+import mongoose from 'mongoose';
+import connectToDatabase from '../lib/mongodb.ts';
+import User from '../models/User.ts';
+import crypto from 'crypto';
 
 async function seedUsers() {
   await connectToDatabase();
 
+  const apiKey = crypto.randomBytes(32).toString('hex');
+
   const users = [
-    { name: 'Caden J', email: 'kh4dien@gmail.com' },
+    { name: 'Caden J', email: 'kh4dien@gmail.com', apiKey: apiKey},
   ];
 
   try {
