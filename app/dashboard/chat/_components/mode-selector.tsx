@@ -74,7 +74,7 @@ export function ModeSelector({ modes, selectedMode, setSelectedMode, ...props }:
               side="left"
               align="start"
               forceMount
-              className="min-h-[280px]"
+              className="min-h-[150px]"
             >
               <div className="grid gap-2">
                 <h4 className="font-medium leading-none">{peekedMode.name}</h4>

@@ -1,6 +1,6 @@
 import { signIn, signOut } from "@/auth"
 import { Button } from "./ui/button"
-
+import { LogOut } from "lucide-react"
 export function SignIn({
   provider,
 }: { provider?: string } & React.ComponentPropsWithRef<typeof Button>) {
@@ -24,7 +24,14 @@ export function SignOut(props: React.ComponentPropsWithRef<typeof Button>) {
         await signOut();
       }}
     >
-      <Button>Sign Out</Button>
+      <Button
+            variant="ghost"
+            size="icon"
+            className="mt-auto rounded-lg"
+            aria-label="Account"
+          >
+            <LogOut className="size-5" />
+          </Button>
     </form>
   )
 }

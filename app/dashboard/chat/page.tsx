@@ -1,124 +1,83 @@
 "use client";
 
-import * as React from "react"
+import * as React from "react";
 
+import { CodeViewer } from "./_components/code-viewer";
+import { MaxLengthSelector } from "./_components/maxlength-selector";
+import { ModelSelector } from "./_components/model-selector";
+import { PresetSave } from "./_components/preset-save";
+import { TemperatureSelector } from "./_components/temperature-selector";
+import { TopPSelector } from "./_components/top-p-selector";
+import { Separator } from "@/components/ui/separator";
+import { Model, models, types } from "./_data/models";
 
-import { Metadata } from "next"
-import Image from "next/image"
-import { CounterClockwiseClockIcon } from "@radix-ui/react-icons"
+import { ModeSelector } from "./_components/mode-selector";
 
-import { Button } from "@/components/ui/button"
+import MessageBuilder from "./_modes/message-builder";
+import Steering from "./_modes/steering";
 
 import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card"
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
-import { Textarea } from "@/components/ui/textarea"
-
-import { MaxLengthSelector } from "./_components/maxlength-selector"
-import { ModelSelector } from "./_components/model-selector"
-import { ModeSelector } from "./_components/mode-selector"
-import { TemperatureSelector } from "./_components/temperature-selector"
-import { TopPSelector } from "./_components/top-p-selector"
-import { Model, models, types } from "./_data/models"
-
-import MessageBuilder from "./message-builder"
-import Steering from "./steering";
-import CompletionIcon from "./_components/completion-icon"
-import EditIcon from "./_components/edit-icon"
-
-
-import { modes, Mode } from "./_data/modes"
-
-
-// export const metadata: Metadata = {
-//   title: "Playground",
-//   description: "The OpenAI Playground built using the components.",
-// }
+import { modes, Mode } from "./_data/modes";
 
 export default function PlaygroundPage() {
+  const [selectedModel, setSelectedModel] = React.useState<Model>(models[0]);
+  const [selectedMode, setSelectedMode] = React.useState<Mode>(modes[0]);
 
-  const [selectedModel, setSelectedModel] = React.useState<Model>(models[0])
-  const [selectedMode, setSelectedMode] = React.useState<Mode>(modes[0])
-
-  
+  const modeDict = {
+    "Chat Completion": <MessageBuilder />,
+    "Steering": <Steering />,
+  };
 
   return (
     <>
-      <div className="md:hidden">
-        <Image
-          src="/examples/playground-light.png"
-          width={1280}
-          height={916}
-          alt="Playground"
-          className="block dark:hidden"
-        />
-        <Image
-          src="/examples/playground-dark.png"
-          width={1280}
-          height={916}
-          alt="Playground"
-          className="hidden dark:block"
-        />
-      </div>
-      <div className="hidden h-full flex-col md:flex">
-        <Tabs defaultValue="edit" className="flex-1">
-          <div className="container h-full py-6">
-            <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
-              <div className="hidden flex-col space-y-4 sm:flex md:order-2">
-                <div className="grid gap-2">
-                  <span className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                    Mode
-                  </span>
-                  <TabsList className="grid grid-cols-2">
-                    <TabsTrigger value="edit">
-                      <span className="sr-only">Edit</span>
-                      <EditIcon />
-                    </TabsTrigger>
-                    <TabsTrigger value="complete">
-                      <span className="sr-only">Complete</span>
-                      <CompletionIcon />
-                    </TabsTrigger>
-                  </TabsList>
+      <div className="w-full space-y-6 p-10 pb-16 min-h-screen flex flex-col">
+        {/* Header Section */}
+        <div className="space-y-0.5">
+          <h2 className="text-2xl font-bold tracking-tight">Playground</h2>
+          {/* <p className="text-muted-foreground">
+            Experiment with different models and settings in the playground.
+          </p> */}
+        </div>
+        
+        {/* Separator */}
+        <Separator className="my-6" />
+        
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col lg:flex-row lg:space-x-12 lg:space-y-0">
+          {/* Content Area */}
+          <div className="flex-1 flex flex-col">
+            <ResizablePanelGroup direction="horizontal" className="flex-1 h-full">
+              <ResizablePanel className="flex-1 overflow-hidden pr-2">
+                {modeDict[selectedMode.name]}
+              </ResizablePanel>
+
+              <ResizableHandle withHandle />
+
+              <ResizablePanel className="flex-1 p-4 rounded-md border bg-muted">
+                <div className="min-h-[400px] lg:min-h-[500px] h-full">
+                  text
                 </div>
-                <ModeSelector modes={modes} selectedMode={selectedMode} setSelectedMode={setSelectedMode}/>
-                <ModelSelector types={types} models={models} selectedModel={selectedModel} setSelectedModel={setSelectedModel}/>
-                <TemperatureSelector defaultValue={[0.56]} />
-                <MaxLengthSelector defaultValue={[256]} />
-                <TopPSelector defaultValue={[0.9]} />
-              </div>
-              <div className="flex-1 md:order-1">
-                <TabsContent value="complete" className="mt-0 border-0 p-0">
-                  <div className="flex h-full flex-col space-y-4">
-                    <Textarea
-                      placeholder="Write a tagline for an ice cream shop"
-                      className="min-h-[400px] flex-1 p-4 md:min-h-[700px] lg:min-h-[700px]"
-                    />
-                    <div className="flex items-center space-x-2">
-                      <Button>Submit</Button>
-                      <Button variant="secondary">
-                        <span className="sr-only">Show history</span>
-                        <CounterClockwiseClockIcon className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                </TabsContent>
-                <TabsContent value="edit" className="mt-0 border-0 p-0">
-                  {selectedMode.name === "Chat Completion" ? <MessageBuilder /> : <Steering />}
-                </TabsContent>
-              </div>
-            </div>
+              </ResizablePanel>
+            </ResizablePanelGroup>
           </div>
-        </Tabs>
+          
+          {/* Sidebar Navigation */}
+          <aside className="w-full lg:w-1/6 space-y-4 flex flex-col">
+          <ModeSelector modes={modes} selectedMode={selectedMode} setSelectedMode={setSelectedMode} />
+            <ModelSelector types={types} models={models} selectedModel={selectedModel} setSelectedModel={setSelectedModel} />
+            <TemperatureSelector defaultValue={[0.56]} />
+            <MaxLengthSelector defaultValue={[256]} />
+            <TopPSelector defaultValue={[0.9]} />
+            <PresetSave />
+            <CodeViewer />
+          </aside>
+        </div>
       </div>
     </>
-  )
+  );
 }
