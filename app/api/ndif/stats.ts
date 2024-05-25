@@ -18,7 +18,7 @@ export function fetchStats() {
                 }
                 acc[key] = entry;
                 return acc;
-            }, {});
+            }, {} as { [key: string]: any }); // Add index signature to the type
             cache = parsedData;
             return parsedData;
         });

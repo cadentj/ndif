@@ -24,6 +24,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 
+import Probing from "./_modes/probing";
 
 import ChatSkeleton from "./_components/chat-skeleton";
 import { Suspense } from "react";
@@ -37,6 +38,7 @@ export default function PlaygroundPage() {
   const modeDict = {
     "Chat Completion": <MessageBuilder setCompletion={setCompletion} />,
     "Steering": <Steering setCompletion={setCompletion} />,
+    "Probing": <Probing setCompletion={setCompletion} />,
   };
 
   const StatsComponent: React.FC = () => {
@@ -49,10 +51,7 @@ export default function PlaygroundPage() {
       <div className="w-full space-y-6 p-10 pb-16 min-h-screen flex flex-col">
         {/* Header Section */}
         <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">Playground</h2>
-          {/* <p className="text-muted-foreground">
-            Experiment with different models and settings in the playground.
-          </p> */}
+          <h2 className="text-2xl font-bold tracking-tight">NDIF Playground</h2>
         </div>
 
         {/* Separator */}
@@ -64,7 +63,7 @@ export default function PlaygroundPage() {
           <div className="flex-1 flex flex-col">
             <ResizablePanelGroup direction="horizontal" className="flex-1 h-full">
               <ResizablePanel className="flex-1 overflow-hidden pr-2">
-                {modeDict[selectedMode.name]}
+                {modeDict[selectedMode.name as keyof typeof modeDict]}
               </ResizablePanel>
 
               <ResizableHandle withHandle />
@@ -80,9 +79,9 @@ export default function PlaygroundPage() {
           {/* Sidebar Navigation */}
           <aside className="w-full lg:w-1/6 space-y-4 flex flex-col">
             <ModeSelector modes={modes} selectedMode={selectedMode} setSelectedMode={setSelectedMode} />
-            <Suspense fallback={<ChatSkeleton />}>
+            {/* <Suspense fallback={<ChatSkeleton />}>
               <StatsComponent />
-            </Suspense>
+            </Suspense> */}
             <TemperatureSelector defaultValue={[0.56]} />
             <MaxLengthSelector defaultValue={[256]} />
             <TopPSelector defaultValue={[0.9]} />

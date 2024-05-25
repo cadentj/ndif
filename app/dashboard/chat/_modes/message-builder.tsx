@@ -14,7 +14,7 @@ interface Message {
     text: string;
 }
 
-export default function MessageBuilder({setCompletion}) {
+export default function MessageBuilder({setCompletion}: {setCompletion: any}) {
     const [messages, setMessages] = React.useState<Message[]>([
         { id: 1, role: "system", text: "" },
     ]);

@@ -7,16 +7,16 @@ export const modes: Mode[] = [
     {
         name: "Chat Completion",
         description:
-            "Chat Completion is a mode that allows you to interact with the model in a conversational way. You can ask questions, provide context, and have a back-and-forth conversation with the model.",
+            "Interact with the model in a conversational way. You can ask questions, provide context, and have a back-and-forth conversation with the model.",
     },
     {
         name: "Steering",
         description:
-            "Most capable GPT-3 model. Can do any task the other models can do, often with higher quality, longer output and better instruction-following. Also supports inserting completions within text.",
+            "Provide a prompt to the model to steer the conversation in a specific direction. This can be useful for generating content that is on-topic and relevant to a specific subject.",
     },
     {
         name: "Probing",
         description:
-            "Most capable GPT-3 model. Can do any task the other models can do, often with higher quality, longer output and better instruction-following. Also supports inserting completions within text.",
+            "Ask the model a series of questions to probe its knowledge on a specific topic. This can be useful for testing the model's understanding of a subject or for generating content that is informative and accurate.",
     },
 ];

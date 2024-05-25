@@ -10,7 +10,7 @@ export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
   return (
-    <div className="pl-[53px]">
+    <div className="pl-[38px]">
       <Sidebar/>
         <main className="flex">
           {children}

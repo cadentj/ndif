@@ -24,7 +24,7 @@ interface Message {
     negative: string;
 }
 
-export default function Steering({setCompletion}: {setCompletion: any}) {
+export default function Probing({setCompletion}: {setCompletion: any}) {
     const [messages, setMessages] = React.useState<Message[]>([
         { id: 1, name: "", positive: "", negative: "" },
     ]);
