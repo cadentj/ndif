@@ -10,6 +10,8 @@ import { Slider } from "@/components/ui/slider";
 import  { CaretSortIcon } from "@radix-ui/react-icons";
 import { Input } from "@/components/ui/input";
 
+import { Message } from "../_modes/steering";
+
 interface CollapsibleDemoProps {
     message: {
         id: number;
@@ -21,7 +23,7 @@ interface CollapsibleDemoProps {
 }
 
 export function CollapsibleDemo({ message, updateMessage }: CollapsibleDemoProps) {
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>, field: string) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: string) => {
         updateMessage(message.id, { [field]: e.target.value });
     };
 

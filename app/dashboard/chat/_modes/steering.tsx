@@ -8,7 +8,6 @@ import {
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import Heatmap from "../_components/test-chart";
 import ChatSkeleton from "../_components/chat-skeleton";
 import { Suspense } from "react";
 import { complete } from "@/app/api/ndif/completions";
