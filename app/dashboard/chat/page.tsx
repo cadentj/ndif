@@ -16,21 +16,32 @@ import { ModeSelector } from "./_components/mode-selector";
 import MessageBuilder from "./_modes/message-builder";
 import Steering from "./_modes/steering";
 
+import { fetchStats } from "@/app/api/ndif/stats";
+
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 
+
+import ChatSkeleton from "./_components/chat-skeleton";
+import { Suspense } from "react";
 import { modes, Mode } from "./_data/modes";
 
 export default function PlaygroundPage() {
   const [selectedModel, setSelectedModel] = React.useState<Model>(models[0]);
   const [selectedMode, setSelectedMode] = React.useState<Mode>(modes[0]);
+  const [completion, setCompletion] = React.useState("");
 
   const modeDict = {
-    "Chat Completion": <MessageBuilder />,
-    "Steering": <Steering />,
+    "Chat Completion": <MessageBuilder setCompletion={setCompletion} />,
+    "Steering": <Steering setCompletion={setCompletion} />,
+  };
+
+  const StatsComponent: React.FC = () => {
+    const stats = fetchStats();
+    return <ModelSelector types={types} models={models} selectedModel={selectedModel} setSelectedModel={setSelectedModel} />;
   };
 
   return (
@@ -43,10 +54,10 @@ export default function PlaygroundPage() {
             Experiment with different models and settings in the playground.
           </p> */}
         </div>
-        
+
         {/* Separator */}
         <Separator className="my-6" />
-        
+
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col lg:flex-row lg:space-x-12 lg:space-y-0">
           {/* Content Area */}
@@ -60,16 +71,18 @@ export default function PlaygroundPage() {
 
               <ResizablePanel className="flex-1 p-4 rounded-md border bg-muted">
                 <div className="min-h-[400px] lg:min-h-[500px] h-full">
-                  text
+                  {completion}
                 </div>
               </ResizablePanel>
             </ResizablePanelGroup>
           </div>
-          
+
           {/* Sidebar Navigation */}
           <aside className="w-full lg:w-1/6 space-y-4 flex flex-col">
-          <ModeSelector modes={modes} selectedMode={selectedMode} setSelectedMode={setSelectedMode} />
-            <ModelSelector types={types} models={models} selectedModel={selectedModel} setSelectedModel={setSelectedModel} />
+            <ModeSelector modes={modes} selectedMode={selectedMode} setSelectedMode={setSelectedMode} />
+            <Suspense fallback={<ChatSkeleton />}>
+              <StatsComponent />
+            </Suspense>
             <TemperatureSelector defaultValue={[0.56]} />
             <MaxLengthSelector defaultValue={[256]} />
             <TopPSelector defaultValue={[0.9]} />

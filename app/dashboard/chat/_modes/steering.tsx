@@ -24,12 +24,10 @@ interface Message {
     negative: string;
 }
 
-export default function Steering() {
+export default function Steering({setCompletion}) {
     const [messages, setMessages] = React.useState<Message[]>([
         { id: 1, name: "", positive: "", negative: "" },
     ]);
-
-    const [completion, setCompletion] = React.useState("");
 
     const addTurn = () => {
         setMessages([

@@ -81,16 +81,6 @@ export function ModelSelector({ models, types, selectedModel, setSelectedModel, 
                 <div className="text-sm text-muted-foreground">
                   {peekedModel.description}
                 </div>
-                {peekedModel.strengths ? (
-                  <div className="mt-4 grid gap-2">
-                    <h5 className="text-sm font-medium leading-none">
-                      Strengths
-                    </h5>
-                    <ul className="text-sm text-muted-foreground">
-                      {peekedModel.strengths}
-                    </ul>
-                  </div>
-                ) : null}
               </div>
             </HoverCardContent>
             <Command loop>
@@ -104,9 +94,9 @@ export function ModelSelector({ models, types, selectedModel, setSelectedModel, 
                       .filter((model) => model.type === type)
                       .map((model) => (
                         <ModelItem
-                          key={model.id}
+                          key={model.name}
                           model={model}
-                          isSelected={selectedModel?.id === model.id}
+                          isSelected={selectedModel?.name === model.name}
                           onPeek={(model) => setPeekedModel(model)}
                           onSelect={() => {
                             setSelectedModel(model)
@@ -147,7 +137,7 @@ function ModelItem({ model, isSelected, onSelect, onPeek }: ModelItemProps) {
 
   return (
     <CommandItem
-      key={model.id}
+      key={model.name}
       onSelect={onSelect}
       ref={ref}
       className="aria-selected:bg-primary aria-selected:text-primary-foreground"

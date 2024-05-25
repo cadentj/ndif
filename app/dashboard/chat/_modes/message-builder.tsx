@@ -14,11 +14,10 @@ interface Message {
     text: string;
 }
 
-export default function MessageBuilder() {
+export default function MessageBuilder({setCompletion}) {
     const [messages, setMessages] = React.useState<Message[]>([
         { id: 1, role: "system", text: "" },
     ]);
-    const [completion, setCompletion] = React.useState("");
 
     const addTurn = () => {
         setMessages([
@@ -44,19 +43,17 @@ export default function MessageBuilder() {
     };
 
     const fetchCompletion = async () => {
-        const messages = generateJSON();
-        const prompt = messages[messages.length - 1].content;
-        console.log(prompt);
-        const result = await complete(prompt);
+        const messages = generateJSONString();
+        const result = await complete(messages);
         setCompletion(result);
     };
 
-    const generateJSON = () => {
+    const generateJSONString = () => {
         const structuredData = messages.map(({ role, text }) => ({
             role,
             content: text,
         }));
-        return structuredData;
+        return JSON.stringify(structuredData);
     };
 
     return (
