@@ -17,7 +17,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { CollapsibleDemo } from "../_components/steering-dropdown";
 
-interface Message {
+export interface Message {
     id: number;
     name: string;
     positive: string;

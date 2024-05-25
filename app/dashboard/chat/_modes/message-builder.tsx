@@ -8,7 +8,7 @@ import { PlusCircledIcon } from "@radix-ui/react-icons";
 import { complete } from "@/app/api/ndif/completions";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-interface Message {
+export interface Message {
     id: number;
     role: string;
     text: string;

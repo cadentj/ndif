@@ -17,14 +17,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { CollapsibleDemo } from "../_components/steering-dropdown";
 
-interface Message {
+export interface Message {
     id: number;
     name: string;
     positive: string;
     negative: string;
 }
 
-export default function Steering({setCompletion}: {setCompletion: any}) {
+export default function Steering({ setCompletion }: { setCompletion: any }) {
     const [messages, setMessages] = React.useState<Message[]>([
         { id: 1, name: "", positive: "", negative: "" },
     ]);
@@ -62,10 +62,7 @@ export default function Steering({setCompletion}: {setCompletion: any}) {
     return (
         <ScrollArea className="h-full pr-2">
             <div className="grid gap-4 pb-4">
-                <Textarea
-                    className="w-full"
-                    placeholder="Prompt"
-                />
+                <Textarea className="w-full" placeholder="Prompt" />
                 {messages.map((message) => (
                     <div key={message.id} className="mb-4">
                         <CollapsibleDemo message={message} updateMessage={updateMessage} />
